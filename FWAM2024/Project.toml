@@ -1,0 +1,24 @@
+name = "FWAM2024"
+uuid = "c53504d5-3d2b-475d-b3b6-1e845cc467b2"
+authors = ["Will M. Farr <will.farr@ligo.org>"]
+version = "0.1.0"
+
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+GaussianKDEs = "1419eebc-666c-4ddd-ac4c-9d7104ca2976"
+LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+PairPlots = "43a3c2be-4208-490b-832a-a21dcd55d7da"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+Turing = "fce5fe82-541a-59a6-adf8-730c64b5f9a0"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
+
+[compat]
+CairoMakie = "0.12.14"
+Distributions = "0.25.112"
+GaussianKDEs = "0.1.1"
+LaTeXStrings = "1.4.0"
+PairPlots = "2.9.2"
+SpecialFunctions = "2.4.0"
+Turing = "0.34.1"
+Zygote = "0.6.72"
