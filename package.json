@@ -104,5 +104,8 @@
       "no-eq-null": 2,
       "no-unused-expressions": 0
     }
+  },
+  "dependencies": {
+    "katex": "^0.16.11"
   }
 }
