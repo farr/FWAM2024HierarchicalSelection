@@ -228,4 +228,21 @@ function estimate_merger_rate(; bbh_mr = 25.0, z_ref = 0.2)
     trapz(zs, integrand)
 end
 
+function do_scatterplot(; seed = 0xf2a41ff544dbaa2e)
+    Random.seed!(seed)
+
+    npts = 100
+
+    xs = rand(npts)
+    ys = rand(npts)
+
+    for (i, ticks) in enumerate([0.25:0.25:0.75, 0.1:0.1:0.9, 0.05:0.05:0.95, 0.01:0.01:0.99])
+        f = Figure(size=(800, 400))
+        a = Axis(f[1,1], xlabel=L"x_1", ylabel=L"x_2", xminorgridvisible=true, yminorgridvisible=true, xminorticks=ticks, yminorticks=ticks)
+        
+        scatter!(a, xs, ys)
+        save(joinpath(@__DIR__, "..", "figures", "scatter-$(i).png"), f)
+    end
+end
+
 end # module FWAM2024
