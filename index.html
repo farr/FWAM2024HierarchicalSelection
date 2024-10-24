@@ -91,7 +91,7 @@
 
 						---
 
-						Evolution of LVK Catalogs: Last Week
+						Evolution of LVK Catalogs: Last Week at <a href="https://gracedb.ligo.org/superevents/public/O4/">GraceDB</a>
 
 						<iframe class="r-stretch" data-src="https://gracedb.ligo.org/superevents/public/O4/" data-preload />
 
@@ -99,14 +99,87 @@
 
 						<img class="r-stretch" src="images/dRdm-gwtc3.png" />
 
-						We now know:
+						Now we know: <div class="fragment" data-fragment-index="1"> **But how?** </div>
+
 						- The most common black hole mergers involve `$10 \, M_\odot$` black holes.  <span class="fragment" data-fragment-index="2">This is not most of what we see!</span>
 						- The integrated rate is `$\sim 1 / 30 \, \mathrm{min}$` in the universe.  <span class="fragment" data-fragment-index="3">Today we see one every few days!</span>
 
-						**But how?** <!-- .element: class="fragment" data-fragment-index="1" -->
 
 						<span class="attribution"><a href="http://arxiv.org/abs/2111.03634">Abbott, et al. (2016)</a></span>
 
+						---
+
+						The actual observations:
+
+						<img class="r-stretch" src="images/observed-dNdm.png" />
+
+						- Observational Uncertainty <!-- .element: class="fragment" -->
+						- Selection Effects <!-- .element: class="fragment" -->
+
+						---
+
+						<h2 class="r-fit-text">How Does this Work?</h2>
+
+						---
+
+						<h2 class="r-fit-text">What is an "observation?"</h2>
+
+						Catalogs are Poisson point processes
+
+						---
+
+						Events have parameters `$x$` and occur with rate 
+						
+						`$$\frac{\mathrm{d}N}{\mathrm{d} x}$$`.
+
+						---
+
+						In each box of parameter space with volume `$\mathrm{d} x$` there are either:
+						  - Zero events, with probability 
+						    `$$\exp\left(- \frac{\mathrm{d}N}{\mathrm{d} x} \mathrm{d} x\right)$$`
+						  - One event, with probability 
+						    `$$\frac{\mathrm{d} N}{\mathrm{d} x} \mathrm{d} x \, \exp\left(- \frac{\mathrm{d}N}{\mathrm{d} x} \mathrm{d} x\right) $$`
+
+						---
+
+						Boxes are independent, so 
+
+						`$$p\left(x_1, \ldots, x_N \right) = \left[ \prod_{i=1}^N \frac{\mathrm{d} N}{\mathrm{d} x_i} \right] \, \exp\left(- \sum_{\mathrm{boxes}} \frac{\mathrm{d}N}{\mathrm{d} x} \mathrm{d} x\right)$$`
+
+						---
+
+						Boxes are independent, so 
+
+						`$$p\left(x_1, \ldots, x_N \right) = \left[ \prod_{i=1}^N \frac{\mathrm{d} N}{\mathrm{d} x_i} \right] \, \exp\left(- \int \mathrm{d} x \, \frac{\mathrm{d}N}{\mathrm{d} x} \right)$$`
+
+						<p class="fragment">Where did the factorial go?</p>
+						<p class="fragment">These events are distinguishable!</p>
+
+						---
+
+						Let's fit a Poisson process:
+
+						`$$\frac{\mathrm{d}N}{\mathrm{d} x} = a \exp\left( - \frac{1}{2} \left[ \frac{x - \mu}{\sigma} \right]^2 \right)$$`
+
+						- <div class="fragment">$a$ is the rate at the peak</div>
+						- <div class="fragment">$\mu$ is the location of the peak</div>
+						- <div class="fragment">$\sigma$ is the width (s.d.) of the peak</div>
+
+						---
+
+						```julia
+						function population_logdensity_fn(a, mu, sigma)
+						    	function pop_logdens(x)
+						        	r = (x-mu)/sigma
+						        	log(a) - r*r/2
+						    	end
+					    	pop_logdens
+						end
+
+						function population_normalization(a, mu, sigma)
+						    a * sqrt(2*pi) * sigma
+						end
+						```
 					</textarea>
 				</section>
 			</div>
