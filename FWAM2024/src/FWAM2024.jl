@@ -1,6 +1,7 @@
 module FWAM2024
 
 using CairoMakie
+using Cosmology
 using Distributions
 using GaussianKDEs
 using LaTeXStrings
@@ -9,7 +10,10 @@ using PairPlots
 using Random
 using SpecialFunctions
 using StatsFuns
+using Trapz
 using Turing
+using Unitful
+using UnitfulAstro
 using Zygote
 
 function population_logdensity_fn(a, mu, sigma)
@@ -208,6 +212,20 @@ function do_obs_selected_model(; seed = 0xc3fab3eb7013cf5e)
     band!(a, [-5, x_thresh], [0, 0], [150, 150], color=:grey, alpha=0.25)
     axislegend(a, location=:bm)
     save(joinpath(@__DIR__, "..", "figures", "obs_sel_model_population.png"), f)
+end
+
+function unnorm_md_sfr(z)
+    (1 + z) / (1 + ((1+z)/(1+1.9))^5.6)
+end
+
+function estimate_merger_rate(; bbh_mr = 25.0, z_ref = 0.2)
+    c = cosmology()
+    zs = expm1.(log(1.0):0.01:log(1.0 + 10.0))
+    md_fn = unnorm_md_sfr.(zs) ./ unnorm_md_sfr(z_ref)
+
+    R_of_z = (bbh_mr * u"Gpc^-3*yr^-1") .* md_fn
+    integrand = 4 .* pi .* R_of_z .* comoving_volume_element.(u"Gpc^3", (c,), zs) ./ (1 .+ zs)
+    trapz(zs, integrand)
 end
 
 end # module FWAM2024
