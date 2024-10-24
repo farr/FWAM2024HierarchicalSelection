@@ -9,7 +9,7 @@ You can view the presentation at https://farr.github.io/FWAM2024HierarchicalSele
 
 The code for fitting the models I discuss in the talk is in the `FWAM2024`
 sub-directory.  To get yourself up and running, go to that directory, run
-[`julia`](https://julialang.org) and install the environment:
+[`julia`](https://julialang.org), install the environment, and you're gtg:
 ```julia-repl
 julia> ]
 (@v1.11) pkg> activate .
